@@ -1,7 +1,7 @@
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS news_bows
 (
-    date timestamp not null,
+    date timestamp not null unique,
     bow  jsonb     not null
 );
 
@@ -21,5 +21,6 @@ CREATE TABLE IF NOT EXISTS sttm_indexes
 );
 
 -- +migrate Down
+DROP TABLE IF EXISTS sttm_indexes;
 DROP TABLE IF EXISTS stocks;
 DROP TABLE IF EXISTS news_bows;
