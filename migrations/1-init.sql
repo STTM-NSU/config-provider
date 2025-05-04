@@ -1,0 +1,25 @@
+-- +migrate Up
+CREATE TABLE IF NOT EXISTS news_bows
+(
+    date timestamp not null,
+    bow  jsonb     not null
+);
+
+CREATE TABLE IF NOT EXISTS stocks
+(
+    instrument_id varchar   not null,
+    ts            timestamp not null,
+    close_price   numeric   not null
+);
+
+CREATE TABLE IF NOT EXISTS sttm_indexes
+(
+    index         numeric   not null,
+    instrument_id varchar   not null,
+    from_time     timestamp not null,
+    to_time       timestamp not null
+);
+
+-- +migrate Down
+DROP TABLE IF EXISTS stocks;
+DROP TABLE IF EXISTS news_bows;

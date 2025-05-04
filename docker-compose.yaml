@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:alpine3.20
+    container_name: postgres
+    restart: unless-stopped
+    volumes:
+      - sttm_db:/var/lib/postgresql/data
+    expose:
+      - "${POSTGRES_PORT}"
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    command: -p ${POSTGRES_PORT}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USERNAME}", "-d", "${POSTGRES_DB_NAME}", "-p", "${POSTGRES_PORT}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    networks:
+      - internal
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis
+    restart: unless-stopped
+    volumes:
+      - sttm_redis:/data
+    ports:
+      - "${REDIS_PORT}:6379"
+      - "${REDIS_INSIGHT_PORT}:8001"
+    environment:
+      REDIS_ARGS: "--requirepass ${REDIS_PASSWORD}"
+    networks:
+      - internal
+#  stocks-scraper:
+#    build:
+#      context: https://github.com/STTM-NSU/stocks-scraper.git#dev
+#      dockerfile: Dockerfile
+#    container_name: stocks-scraper
+#    restart: unless-stopped
+#    depends_on:
+#      - postgres
+#    environment:
+#      POSTGRES_HOST: "${POSTGRES_HOST}"
+#      POSTGRES_PORT: "${POSTGRES_PORT}"
+#      POSTGRES_USERNAME: "${POSTGRES_USERNAME}"
+#      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+#      POSTGRES_DB_NAME: "${POSTGRES_DB_NAME}"
+#      T_INVEST_API_TOKEN: "${T_INVEST_API_TOKEN}"
+#    networks:
+#      - internal
+
+volumes:
+  sttm_db:
+  sttm_redis:
+
+networks:
+  internal:
+    name: internal
+    driver: bridge
+
+

@@ -1,0 +1,4 @@
+postgres:
+  dialect: postgres
+  datasource: dbname=${POSTGRES_DB_NAME} sslmode=disable
+  dir: migrations
