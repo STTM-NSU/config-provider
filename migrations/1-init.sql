@@ -5,6 +5,12 @@ CREATE TABLE IF NOT EXISTS news_bows
     bow  jsonb     not null
 );
 
+CREATE TABLE IF NOT EXISTS instruments
+(
+    id                varchar primary key,
+    first_candle_date timestamp not null
+);
+
 CREATE TABLE IF NOT EXISTS stocks
 (
     instrument_id varchar   not null,
@@ -23,4 +29,5 @@ CREATE TABLE IF NOT EXISTS sttm_indexes
 -- +migrate Down
 DROP TABLE IF EXISTS sttm_indexes;
 DROP TABLE IF EXISTS stocks;
+DROP TABLE IF EXISTS instruments;
 DROP TABLE IF EXISTS news_bows;

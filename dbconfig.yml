@@ -1,4 +1,4 @@
 postgres:
   dialect: postgres
-  datasource: host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_DB_NAME} user=${POSTGRES_USERNAME} password=${POSTGRES_PASSWORD} sslmode=disable
+  datasource: host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_DB_NAME} user=${POSTGRES_USERNAME} password=${POSTGRES_PASSWORD} sslmode=${POSTGRES_SSL_MODE}
   dir: migrations
