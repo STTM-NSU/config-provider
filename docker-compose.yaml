@@ -49,7 +49,7 @@ services:
     profiles:
       - disabled
     build:
-      context: https://github.com/STTM-NSU/stocks-scraper.git#dev
+      context: https://github.com/STTM-NSU/stocks-scraper.git
       dockerfile: Dockerfile
     container_name: stocks-scraper
     restart: no
@@ -61,6 +61,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrations:
+        condition: service_started
     environment:
       POSTGRES_HOST: "${POSTGRES_HOST}"
       POSTGRES_PORT: "${POSTGRES_PORT}"
