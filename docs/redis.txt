@@ -1,7 +1,3 @@
 pub/sub
 key=hash(article_id)%len(partitions)
 value=json{"date", "text"}
-
-news-data-processor (HSET, HGETALL)
-key=date(yyyy:mm:dd:hh) <- date extraction on web-scraper
-value=BoW (map[string]int)
