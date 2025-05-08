@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS news_bows
 (
     url  varchar primary key,
     bow  jsonb     not null,
-    date timestamp not null unique -- format: yyyy:mm:dd:hh
+    date timestamp not null -- format: yyyy:mm:dd:hh
 
 );
 
