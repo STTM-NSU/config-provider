@@ -39,9 +39,10 @@ CREATE TABLE IF NOT EXISTS sttm_indexes
 
 CREATE TABLE IF NOT EXISTS sttm_interpretability
 (
-    topics        jsonb   not null, -- {"topic_0": 0, "topic_1": 1}
-    tts           jsonb   not null, -- [[1,2,3], [4,5,6], ...] each internal element represents N topic probability over time
-    sttm_index_id integer not null,
+    topics         jsonb   not null, -- {"topic_0": 0, "topic_1": 1}
+    tts            jsonb   not null, -- [[1,2,3], [4,5,6], ...] each internal element represents N topic probability over time
+    frequent_words jsonb   not null, -- {"word1": 1232, "word2": 12312}
+    sttm_index_id  integer not null,
     foreign key (sttm_index_id) references sttm_indexes (id) on delete cascade
 );
 
