@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS news_bows
 
 CREATE TABLE IF NOT EXISTS news_done
 (
-    date date not null unique -- format: yyyy-mm-dd
+    date          date primary key, -- format: yyyy-mm-dd
+    scraped_count integer  default 0,
+    scraped_time  interval
 );
 
 CREATE TABLE IF NOT EXISTS instruments
@@ -46,15 +48,7 @@ CREATE TABLE IF NOT EXISTS sttm_interpretability
     foreign key (sttm_index_id) references sttm_indexes (id) on delete cascade
 );
 
-CREATE TABLE IF NOT EXISTS trading_journal
-(
-    ts   timestamp not null,
-    op   varchar   not null,
-    data jsonb
-);
-
 -- +migrate Down
-DROP TABLE IF EXISTS trading_journal;
 DROP TABLE IF EXISTS sttm_interpretability;
 DROP TABLE IF EXISTS sttm_indexes;
 DROP TABLE IF EXISTS stocks;
