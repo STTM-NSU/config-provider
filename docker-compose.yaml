@@ -38,9 +38,16 @@ services:
     restart: unless-stopped
     volumes:
       - sttm_redis:/data
+    expose:
+      - "${REDIS_PORT}"
     ports:
       - "${REDIS_PORT}:6379"
       - "${REDIS_INSIGHT_PORT}:8001"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     environment:
       REDIS_ARGS: "--requirepass ${REDIS_PASSWORD}"
     networks:
@@ -71,6 +78,26 @@ services:
       POSTGRES_DB_NAME: "${POSTGRES_DB_NAME}"
       POSTGRES_SSL_MODE: "${POSTGRES_SSL_MODE}"
       T_INVEST_API_TOKEN: "${T_INVEST_API_TOKEN}"
+    networks:
+      - internal
+  web-scraper:
+    profiles:
+      - disabled
+    build:
+      context: https://github.com/STTM-NSU/web-scraper.git
+      dockerfile: Dockerfile
+    container_name: web-scraper
+    restart: no
+    volumes:
+      - ./configs/web-scraper.yaml:/go/configs/config.yaml
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_PORT: "${REDIS_PORT}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      PROXIES: "${PROXIES}"
     networks:
       - internal
 
