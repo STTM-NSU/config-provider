@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS news_done
 
 CREATE TABLE IF NOT EXISTS instruments
 (
-    id                varchar primary key,
+    id                varchar primary key, -- figi
     first_candle_date timestamp not null
 );
 
