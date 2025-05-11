@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS balances
     value      numeric not null,
     currency   varchar not null,
     account_id varchar not null,
-    foreign key (account_id) references portfolios (account_id) on delete cascade
+    foreign key (account_id) references portfolios (account_id) on delete cascade,
+    constraint currency_account_id unique (currency, account_id)
 );
 
 ALTER TABLE instruments
@@ -28,12 +29,13 @@ ALTER TABLE instruments
 
 CREATE TABLE IF NOT EXISTS portfolio_instruments -- that we bought
 (
-    order_request_id varchar not null,
-    direction        varchar not null,
-    entry_price      numeric not null,
-    quantity         numeric not null,
-    instrument_id    varchar not null,
-    account_id       varchar not null,
+    instrument_id       varchar unique,
+    order_request_id    varchar not null,
+    direction           varchar not null,
+    entry_price         numeric not null,
+    min_price_increment numeric not null,
+    quantity            numeric not null,
+    account_id          varchar not null,
     foreign key (instrument_id) references instruments (id) on delete cascade,
     foreign key (account_id) references portfolios (account_id) on delete cascade
 );

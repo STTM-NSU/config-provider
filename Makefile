@@ -26,3 +26,7 @@ migrate-up:
 .PHONY: migrate-down
 migrate-down:
 	sql-migrate down -config=dbconfig.yml -env=postgres
+
+.PHONY: local-migrate-status
+local-migrate:
+	 set -a; . ./.env; set +a; sql-migrate status -config=dbconfig.yml -env=postgres
