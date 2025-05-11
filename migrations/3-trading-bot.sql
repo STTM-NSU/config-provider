@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS portfolio_instruments -- that we bought
 (
     instrument_id       varchar unique,
     order_request_id    varchar not null,
+    order_id            varchar,
     direction           varchar not null,
+    instrument_type     varchar not null,
     entry_price         numeric not null,
     min_price_increment numeric not null,
     quantity            numeric not null,
